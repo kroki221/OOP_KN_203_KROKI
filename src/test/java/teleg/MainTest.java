@@ -23,7 +23,7 @@ public class MainTest {
         String expResult, actResult;
 
         Main example = new Main();
-        example.Command("/help");
+        example.command("/help");
 
         expResult = """
                             Список команд:

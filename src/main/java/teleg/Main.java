@@ -10,10 +10,10 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             String s_command = scanner.next();
-            Command(s_command);
+            command(s_command);
         }
     }
-    public static void Command(String command){
+    public static void command(String command){
         Random rand = new Random();
         switch (command) {
             case "/help" -> System.out.println(
