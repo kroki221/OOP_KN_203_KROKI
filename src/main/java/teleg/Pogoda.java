@@ -1,4 +1,5 @@
 package teleg;
+import java.nio.charset.StandardCharsets;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -6,16 +7,25 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
+import java.util.Properties;
+
+
 
 public class Pogoda extends TelegramLongPollingBot {
-
-
     @Override
     public String getBotUsername() {
         return "java_knbot";
     }
     @Override
-    public String getBotToken() { return "6554591084:AAFZGOmECqtzr6i2EMLbSNscN-qAu27XPgs"; }
+    public String getBotToken() {
+        String str = null;
+        try {
+            str = new String(Pogoda.class.getResourceAsStream("/config.txt").readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return str;
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -41,11 +51,7 @@ public class Pogoda extends TelegramLongPollingBot {
             } else if(inputText.startsWith("Погода")) {
                 inputText = inputText.substring(7);
                 JsonParser jsonParser = new JsonParser();
-                try {
-                    message.setText(jsonParser.getWeatherData(inputText));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                message.setText(jsonParser.getWeatherData(inputText));
             }
 
             try {

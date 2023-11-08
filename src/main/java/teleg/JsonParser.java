@@ -1,35 +1,50 @@
 package teleg;
-
-import java.io.IOException;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import org.json.JSONObject;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Objects;
 
-public class JsonParser {
-    private final OkHttpClient client = new OkHttpClient();
-    private final String API_KEY = "2fd984f1664e5d639892a45676712d28";
+public class JsonParser{
+    private final String apiKey = "0c9893b0-794e-4ab1-a779-d7d43643ab5b";
 
-    public String getWeatherData(String city) throws IOException {
-        // Make a GET request to the OpenWeatherMap API
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + API_KEY;
-        Request request = new Request.Builder().url(url).build();
-        try (Response response = client.newCall(request).execute()) {
-            ResponseBody responseBody = response.body();
-            if (responseBody != null) {
-                String jsonString = responseBody.string();
+    public String getWeatherData(String city) {
+        try {
+            URL url = new URL("https://api.weather.yandex.ru/v2/forecast?lat=55.75396&lon=37.620393&extra=true");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("X-Yandex-API-Key", apiKey);
 
-                // Extract relevant weather information from the JSON response
-                JSONObject jsonObject = new JSONObject(jsonString);
-                String cityName = jsonObject.getString("name");
-                JSONObject mainObject = jsonObject.getJSONObject("main");
-                double temperature = mainObject.getDouble("temp") - 273;
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
 
-                // Format the weather data as a string
-                String weatherData = "Current weather in " + cityName + ": " + temperature + "°C";
-                return weatherData;
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
             }
+            in.close();
+            JSONObject forecast = new JSONObject(response.toString());
+            JSONObject jsonResponse = new JSONObject(response.toString());
+            // Обработка полученных данных о погоде и извлечение необходимой информации
+            JSONObject factObject = jsonResponse.getJSONObject("fact");
+            double temperature = factObject.getDouble("temp");
+            double wind = factObject.getDouble("wind_speed");
+            double fact_temp = factObject.getDouble("feels_like");
+            String day_time = String.valueOf(factObject.getString("daytime"));
+            if (Objects.equals(day_time, "d")) {
+                day_time= "день";
+            } else {
+                day_time="ночь";
+            }
+
+            // Форматирование данных о погоде в виде строки
+            String weatherData = "Погода в городе " + city + " на данный момент - "+ temperature + "°C,"+ " но ощущается как - "+ fact_temp+"°C"+"\n"+
+                    "Скорость ветра - " + wind+ "\n"+
+                    "Время суток - "+ day_time + "\n";
+            return weatherData;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return "";
     }
