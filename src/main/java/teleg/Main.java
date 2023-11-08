@@ -1,52 +1,18 @@
 package teleg;
 
-import java.util.Scanner;
-import java.util.Random;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Привет! Я бот-ассистент. Чем могу помочь?");
 
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            String s_command = scanner.next();
-            command(s_command);
-        }
-    }
-    public static void command(String command){
-        Random rand = new Random();
-        switch (command) {
-            case "/help" -> System.out.println(
-                    """
-                            Список команд:
-                            /help - показать список команд
-                            /weather - получить текущую погоду
-                            /joke - рассказать шутку,\s
-                            /exam - предсказать результат экзамена""");
-            case "/weather" -> System.out.println(
-                    "К сожалению, я не могу предоставить текущую погоду. Попробуйте воспользоваться онлайн-сервисом для получения актуальной информации о погоде в вашем городе.");
-            case "/joke" -> System.out.println(
-                    "Почему программисты не любят ходить гулять?" +
-                            "\nПотому что они боятся выйти из своего комфортного (code)пространства!");
-            case "/exam" -> {
-                int n = rand.nextInt(3);
-                System.out.println(
-                        "Хочешь узнать как ты сдашь экзамен, ДА!?");
-                if (n == 0) System.out.println(
-                        "ПЕРЕСДАЧА!"
-                );
-                if (n == 1) System.out.println(
-                        "ТЫ СДАЛ,ВЕЗУНЧИК"
-                );
-                if (n == 2) System.out.println(
-                        "ОТЧИЛСЛЕН!"
-                );
-            }
-            case "/exit" -> {
-                System.out.println("Пока!");
-                System.exit(0);
-            }
-            default -> System.out.println("Неизвестная команда. Введите /help для получения списка команд.");
+    public static void main(String[] args) throws TelegramApiException {
+
+        try {
+            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+            botsApi.registerBot(new Pogoda());
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 }
