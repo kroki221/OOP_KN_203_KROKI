@@ -38,7 +38,7 @@ public class Pogoda extends TelegramLongPollingBot {
                         message.setText("Такой команды нет");
                     }
                 }
-            } else if(inputText.startsWith("/weather")) {
+            } else if(inputText.startsWith("Погода")) {
                 inputText = inputText.substring(7);
                 JsonParser jsonParser = new JsonParser();
                 try {
