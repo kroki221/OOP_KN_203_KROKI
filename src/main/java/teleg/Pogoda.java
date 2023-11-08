@@ -29,16 +29,16 @@ public class Pogoda extends TelegramLongPollingBot {
                 switch (inputText) {
                     case "start" -> {
                         message.setText(
-                                "Бот для парсинга статистики видео с YouTube. \n\nОтправьте ссылку на видео.");
+                                "Ты можешь узнать погоду, услышать шутку(несмешную) и узнать сдашь ли ты сессию, а остольное в разработке \n\n/weather - погода\n/joke - не смешная шутка\n/exam - результат экзамена");
                     }
                     case "help" -> {
-                        message.setText("Отправьте ссылку на видео.");
+                        message.setText("/weather и название города");
                     }
                     default -> {
                         message.setText("Такой команды нет");
                     }
                 }
-            } else if(inputText.startsWith("Погода")) {
+            } else if(inputText.startsWith("/weather")) {
                 inputText = inputText.substring(7);
                 JsonParser jsonParser = new JsonParser();
                 try {
