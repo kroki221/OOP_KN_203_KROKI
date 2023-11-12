@@ -36,6 +36,8 @@ public class GeocodingService {
                 JSONObject object = results.getJSONObject(0);
                 JSONObject geometry = object.getJSONObject("geometry");
                 double latitude = geometry.getDouble("lat");
+                System.out.println(results);
+                System.out.println(latitude);
                 return latitude;
             }
 
@@ -68,6 +70,7 @@ public class GeocodingService {
                 JSONObject object = results.getJSONObject(0);
                 JSONObject geometry = object.getJSONObject("geometry");
                 double longitude = geometry.getDouble("lng");
+                System.out.println(longitude);
                 return longitude;
             }
 

@@ -31,12 +31,7 @@ public class JsonParser{
             JSONObject info = new JSONObject(response.toString());
             JSONObject jsonResponse = new JSONObject(response.toString());
             // Обработка полученных данных о погоде и извлечение необходимой информации
-            JSONObject infoObject = info.getJSONObject("info");
-            System.out.println(infoObject);
             JSONObject factObject = jsonResponse.getJSONObject("fact");
-            System.out.println(factObject);
-            double lat = infoObject.getDouble("lat");
-            double lon = infoObject.getDouble("lon");
             double temperature = factObject.getDouble("temp");
             double wind = factObject.getDouble("wind_speed");
             double fact_temp = factObject.getDouble("feels_like");
