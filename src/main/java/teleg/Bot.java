@@ -55,7 +55,7 @@ public class Bot extends TelegramLongPollingBot {
                 switch (inputText) {
                     case "start" -> {
                         message.setText(
-                                "Ты можешь узнать погоду, услышать шутку(несмешную) и узнать сдашь ли ты сессию, а остольное в разработке \n\n/weather - погода\n/joke - не смешная шутка\n/exam - результат экзамена");
+                                "Ты можешь узнать погоду, услышать шутку(несмешную)\n\n/weather - погода\n/joke - несмешная шутка\n/help - как работают команды");
                                 ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
                                 keyboardMarkup.setSelective(true);
                                 keyboardMarkup.setResizeKeyboard(true);
@@ -77,7 +77,7 @@ public class Bot extends TelegramLongPollingBot {
                         message.setText(ChuckJokes.GetJokes());
                     }
                     case "help" -> {
-                        message.setText("'Погода' и название города");
+                        message.setText("'Погода' и название города(на английском)");
                     }
                     case "weather" -> {
                         JsonParser jsonParser = new JsonParser();
@@ -87,7 +87,7 @@ public class Bot extends TelegramLongPollingBot {
                     default -> {
                         message.setText("Такой команды нет");
                         message.setText(
-                                "Видимо вы не посмотрели /help! \n\n/weather - погода\n/joke - не смешная шутка\n/exam - результат экзамена");
+                                "Видимо вы не посмотрели /help! \n\n/weather - погода\n/joke - не смешная шутка");
                     }
                 }
             }

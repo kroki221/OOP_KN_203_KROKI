@@ -7,9 +7,9 @@ import java.net.URL;
 import java.util.Objects;
 
 public class JsonParser{
-    private final String apiKey = "0c9893b0-794e-4ab1-a779-d7d43643ab5b";
+    private static final String apiKey = "0c9893b0-794e-4ab1-a779-d7d43643ab5b";
 
-    public String getWeatherData(String city) {
+    public static String getWeatherData(String city) {
         double latitude = GeocodingService.getLatitude(city);
         double longitude = GeocodingService.getLongitude(city);
         System.out.println(longitude);
@@ -28,7 +28,6 @@ public class JsonParser{
                 response.append(inputLine);
             }
             in.close();
-            JSONObject info = new JSONObject(response.toString());
             JSONObject jsonResponse = new JSONObject(response.toString());
             // Обработка полученных данных о погоде и извлечение необходимой информации
             JSONObject factObject = jsonResponse.getJSONObject("fact");
