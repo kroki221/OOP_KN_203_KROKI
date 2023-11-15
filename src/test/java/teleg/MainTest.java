@@ -27,34 +27,24 @@ public class MainTest {
         System.setOut(new PrintStream(output));
     }
 
-        @Test
-        public void testGetJokes() {
-            String joke = ChuckJokes.GetJokes();
-            assertNotNull(joke);
-            assertFalse(joke.isEmpty());
-        }
+    @Test
+    public void testGetJokes() {
+        String joke = ChuckJokes.GetJokes();
+        assertNotNull(joke);
+        assertFalse(joke.isEmpty());
+    }
     @Test
     public void testGetWeatherData_validCity() {
-        // Arrange
         String city = "New York";
-
-        // Act
         String weatherData = JsonParser.getWeatherData(city);
-
-        // Assert
         assertNotNull(weatherData);
         assertTrue(weatherData.contains("Погода в городе New York на данный момент"));
     }
 
     @Test
     public void testGetWeatherData_invalidCity() {
-        // Arrange
         String city = "Invalid City";
-
-        // Act
         String weatherData = JsonParser.getWeatherData(city);
-
-        // Assert
         assertEquals("", weatherData);
     }
 
