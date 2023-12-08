@@ -1,17 +1,29 @@
 package teleg;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class GeocodingService {
-    private static final String apiKey = "35f7ac8840274d398ecf20e49a2a6c1f";
+
+    public static String geoBotToken() {
+        String apiKey = null;
+        try {
+            apiKey = new String(Bot.class.getResourceAsStream("/apikeyGeoCod").readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return apiKey;
+    }
+    static String apiKey = geoBotToken();
 
     public static double getLatitude(String city) {
         try {

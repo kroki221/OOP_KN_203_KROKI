@@ -1,13 +1,24 @@
 package teleg;
 import org.json.JSONObject;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public class JsonParser{
-    private static final String apiKey = "0c9893b0-794e-4ab1-a779-d7d43643ab5b";
+    public static String jsonBotToken() {
+        String apiKey = null;
+        try {
+            apiKey = new String(Bot.class.getResourceAsStream("/jsonBotToken").readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return apiKey;
+    }
+    static String apiKey = jsonBotToken();
 
     public static String getWeatherData(String city) {
         double latitude = GeocodingService.getLatitude(city);

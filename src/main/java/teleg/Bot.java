@@ -108,9 +108,9 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private void handleUnknownCommand(SendMessage message) {
-        message.setText("Такой команды нет"+
-                "Видимо вы не посмотрели /help!+" +
-                " \n\n/weather - погода\n+" +
+        message.setText("Такой команды нет\n"+
+                "Видимо вы не посмотрели /help!" +
+                " \n/weather - погода\n" +
                 "/joke - не смешная шутка");
     }
     private void executeMessage(SendMessage message) {
