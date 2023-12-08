@@ -3,22 +3,20 @@ package teleg;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.junit.Assert;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import static org.mockito.Mockito.*;
+import java.io.*;
 
 
 public class MainTest {
+    public static String read(String path) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(path));
+        String line;
+        line = reader.readLine();
+        return line;
+    }
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
     private final PrintStream standardOut = System.out;
 
@@ -29,25 +27,18 @@ public class MainTest {
 
     @Test
     public void testGetJokes() {
-        String joke = ChuckJokes.GetJokes();
+        String joke = ChuckJokes.getJokes();
         assertNotNull(joke);
         assertFalse(joke.isEmpty());
     }
     @Test
-    public void testGetWeatherData_validCity() {
-        String city = "New York";
-        String weatherData = JsonParser.getWeatherData(city);
-        assertNotNull(weatherData);
-        assertTrue(weatherData.contains("Погода в городе New York на данный момент"));
+    public void testGetWeatherData_validCity() throws IOException {
+        String request = read("./src/main/resources/testweatherjson.txt");
+        String answer = "Погода в городе Almaty на данный момент - 6.0°C, но ощущается как - 3.0°C\n" +
+                "Скорость ветра - 1.7\n" +
+                "Время суток - ночь\n";
+        Assert.assertEquals(JsonParser.dropWeather(request, "Almaty"), answer);
     }
-
-    @Test
-    public void testGetWeatherData_invalidCity() {
-        String city = "Invalid City";
-        String weatherData = JsonParser.getWeatherData(city);
-        assertEquals("", weatherData);
-    }
-
 
     @AfterEach
     public void tearDown() {

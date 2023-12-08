@@ -9,10 +9,9 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 public class ChuckJokes {
-    public static String GetJokes() {
+    public static String getJokes() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet("https://api.chucknorris.io/jokes/random");
-
         try {
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();
