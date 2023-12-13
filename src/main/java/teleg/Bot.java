@@ -15,7 +15,7 @@ import static org.apache.commons.io.IOUtils.length;
 
 public class Bot extends TelegramLongPollingBot {
     public String inputCity;
-
+    public String TranslateText;
     @Override
     public String getBotUsername() {
         return "java_knbot";
@@ -31,8 +31,7 @@ public class Bot extends TelegramLongPollingBot {
         }
         return str;
     }
-
-    @Override
+        @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String inputText = update.getMessage().getText();
@@ -41,11 +40,18 @@ public class Bot extends TelegramLongPollingBot {
 
             if (inputText.startsWith("/")) {
                 inputText = inputText.substring(1).toLowerCase();
-                if (inputText.startsWith("weather")) {
+                if (inputText.startsWith("weather") )  {
                     byte[] bytes = SerializationUtils.serialize(inputText);
                     inputCity = SerializationUtils.deserialize(bytes);
                     inputCity = inputCity.substring(8, length(inputText));
                     inputText = inputText.substring(0, 7).toLowerCase();
+                }
+                if (inputText.startsWith("translator") )  {
+                    byte[] bytes = SerializationUtils.serialize(inputText);
+                    TranslateText = SerializationUtils.deserialize(bytes);
+                    TranslateText = TranslateText.substring(11, length(inputText));
+                    inputText = inputText.substring(0, 10).toLowerCase();
+                    System.out.println(TranslateText);
                 }
                 switch (inputText) {
                     case "start" -> {
@@ -64,6 +70,9 @@ public class Bot extends TelegramLongPollingBot {
                         handleWeatherCommand(message, inputCity);
                         executeMessage(message);
                     }
+                    case "translator" -> {
+                        handleTranslate(message, TranslateText);
+                    }
                     default -> {
                         handleUnknownCommand(message);
                         executeMessage(message);
@@ -72,7 +81,20 @@ public class Bot extends TelegramLongPollingBot {
             }
         }
     }
-
+    private void handleTranslate(SendMessage message, String Translate){
+        String userInput = Translate;
+        System.out.println(userInput);
+        String targetLanguage = "ru";
+        try {
+            YandexTranslate translator = new YandexTranslate();
+            String translatedText = translator.translate(userInput, targetLanguage);
+            message.setText("Переведенный текст: " + translatedText);
+            executeMessage(message);
+        } catch (IOException e) {
+            System.err.println("Failed to translate text: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
     private void handleStartCommand(SendMessage message) {
         message.setText("Ты можешь узнать погоду, услышать шутку(несмешную)\n\n/weather - погода\n/joke - несмешная шутка\n/help - как работают команды");
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
@@ -82,17 +104,15 @@ public class Bot extends TelegramLongPollingBot {
 
         KeyboardRow row = new KeyboardRow();
         row.add("TEST");
-
+        row.add("/translator");
         KeyboardRow row1 = new KeyboardRow();
         row1.add("/help");
         row1.add("/weather");
         row1.add("/joke");
-
         keyboardMarkup.setKeyboard(List.of(row1, row));
 
         message.setReplyMarkup(keyboardMarkup);
     }
-
     public BotApiMethodMessage handleJokeCommand(SendMessage message) {
         message.setText(ChuckJokes.getJokes());
         return message;

@@ -44,7 +44,7 @@ public class JsonParser{
         }
         return "";
     }
-    public static String dropWeather(String request, String city){
+    public static String dropWeather(String request, String city) throws IOException {
         JSONObject jsonResponse = new JSONObject(request.toString());
         JSONObject factObject = jsonResponse.getJSONObject("fact");
         double temperature = factObject.getDouble("temp");
@@ -56,9 +56,10 @@ public class JsonParser{
         } else {
             day_time="ночь";
         }
-
+        YandexTranslate translator = new YandexTranslate();
+        String city_ru = translator.translate(city, "ru");
         // Форматирование данных о погоде в виде строки
-        String weatherData = "Погода в городе " + city + " на данный момент - "+ temperature + "°C,"+ " но ощущается как - "+ fact_temp+"°C"+"\n"+
+        String weatherData = "Погода в городе " + city_ru + " на данный момент - "+ temperature + "°C,"+ " но ощущается как - "+ fact_temp+"°C"+"\n"+
                 "Скорость ветра - " + wind+ "\n"+
                 "Время суток - "+ day_time + "\n";
         return weatherData;
