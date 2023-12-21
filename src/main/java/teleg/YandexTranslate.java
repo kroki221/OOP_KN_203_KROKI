@@ -46,7 +46,6 @@ public class YandexTranslate {
                 .put("targetLanguageCode", "ru")
                 .put("texts", texts)
                 .put("folderId", folderId);
-
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody requestBody = RequestBody.create(mediaType, body.toString());
         Request request = new Request.Builder()
@@ -60,6 +59,7 @@ public class YandexTranslate {
             if (response.isSuccessful() && response.body() != null) {
                 String responseBody = response.body().string();
                 JSONObject jsonResponse = new JSONObject(responseBody);
+                System.out.println((jsonResponse));
                 JSONArray translations = jsonResponse.getJSONArray("translations");
                 System.out.println(translations);
                 if (translations.length() > 0) {

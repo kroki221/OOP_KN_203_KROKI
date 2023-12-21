@@ -12,7 +12,7 @@ public class JsonParser{
     public static String jsonBotToken() {
         String apiKey = null;
         try {
-            apiKey = new String(Bot.class.getResourceAsStream("/jsonBotToken").readAllBytes(), StandardCharsets.UTF_8);
+            apiKey = new String(Bot2.class.getResourceAsStream("/jsonBotToken").readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

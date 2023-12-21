@@ -46,12 +46,12 @@ public class MainTest {
     @Test
     public void testGetWeatherData_validCity() throws IOException {
         String request = read("./src/main/resources/testweatherjson.txt");
-        String answer = "Погода в городе Almaty на данный момент - 6.0°C, но ощущается как - 3.0°C\n" +
+        String Translated_City="almaty";
+        String answer = "Погода в городе" + Translated_City+ "на данный момент - 6.0°C, но ощущается как - 3.0°C\n" +
                 "Скорость ветра - 1.7\n" +
                 "Время суток - ночь\n";
         Assert.assertEquals(JsonParser.dropWeather(request, "Almaty"), answer);
     }
-
     @AfterEach
     public void tearDown() {
         System.setOut(standardOut);

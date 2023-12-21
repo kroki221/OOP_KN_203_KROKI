@@ -17,7 +17,7 @@ public class GeocodingService {
     public static String geoBotToken() {
         String apiKey = null;
         try {
-            apiKey = new String(Bot.class.getResourceAsStream("/apikeyGeoCod").readAllBytes(), StandardCharsets.UTF_8);
+            apiKey = new String(Bot2.class.getResourceAsStream("/apikeyGeoCod").readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

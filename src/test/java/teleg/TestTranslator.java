@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class YourClassTest {
+public class TestTranslator {
 
     @Test
     public void testTranslate_validText() throws IOException {
