@@ -25,7 +25,7 @@ public class GeocodingService {
     }
     static String apiKey = geoBotToken();
 
-    public static double getLatitude(String city) {
+    public double getLatitude(String city) {
         try {
             String apiUrl = "https://api.opencagedata.com/geocode/v1/json?key=" + apiKey + "&q=" + city;
             URL url = new URL(apiUrl);
@@ -59,7 +59,7 @@ public class GeocodingService {
 
         return 0.0;
     }
-    public static double getLongitude(String city) {
+    public double getLongitude(String city) {
         try {
             String apiUrl = "https://api.opencagedata.com/geocode/v1/json?key=" + apiKey +"&q=" + city;
             URL url = new URL(apiUrl);

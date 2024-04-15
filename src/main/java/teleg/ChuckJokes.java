@@ -9,7 +9,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 public class ChuckJokes {
-    public static String getJokes() {
+    public String getJokes() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet("https://api.chucknorris.io/jokes/random");
         try {

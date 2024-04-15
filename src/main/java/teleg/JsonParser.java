@@ -20,9 +20,11 @@ public class JsonParser{
     }
     static String apiKey = jsonBotToken();
 
-    public static String getWeatherData(String city) {
-        double latitude = GeocodingService.getLatitude(city);
-        double longitude = GeocodingService.getLongitude(city);
+    public String getWeatherData(String city) {
+        GeocodingService lat = new GeocodingService();
+        double latitude = lat.getLatitude(city);
+        GeocodingService lon = new GeocodingService();
+        double longitude = lon.getLongitude(city);
         try {
             String geocodingUrl = "https://api.weather.yandex.ru/v2/forecast?lat="+latitude+"&lon="+longitude+"&extra=true";
             URL url = new URL(geocodingUrl);
@@ -44,7 +46,7 @@ public class JsonParser{
         }
         return "";
     }
-    public static String dropWeather(String request, String city) throws IOException {
+    public String dropWeather(String request, String city) throws IOException {
         JSONObject jsonResponse = new JSONObject(request.toString());
         JSONObject factObject = jsonResponse.getJSONObject("fact");
         double temperature = factObject.getDouble("temp");

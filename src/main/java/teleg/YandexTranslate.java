@@ -43,7 +43,7 @@ public class YandexTranslate {
         String iamToken = iamToken1;
         JSONArray texts = new JSONArray(Collections.singletonList(text));
         JSONObject body = new JSONObject()
-                .put("targetLanguageCode", "ru")
+                .put("targetLanguageCode", targetLanguage)
                 .put("texts", texts)
                 .put("folderId", folderId);
         MediaType mediaType = MediaType.parse("application/json");
