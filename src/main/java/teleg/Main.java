@@ -14,7 +14,6 @@ public class Main {
         GeoWeatherService geoWeatherService = new GeoWeatherService(geocodingService, weatherService, translator);
 
         Bot2 bot = new Bot2(geocodingService, weatherService, translator, geoWeatherService);
-
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
             botsApi.registerBot(bot);

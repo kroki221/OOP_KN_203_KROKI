@@ -49,7 +49,6 @@ public class WeatherService implements IWeatherService {
         }
         return null;
     }
-
     private WeatherData parseWeatherResponse(String request) throws IOException {
         JSONObject jsonResponse = new JSONObject(request.toString());
         JSONObject factObject = jsonResponse.getJSONObject("fact");

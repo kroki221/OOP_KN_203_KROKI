@@ -30,7 +30,6 @@ public class GeocodingService implements IGeoService {
     public double getLongitude(String city) {
         return getCoordinates(city)[1];
     }
-
     private double[] getCoordinates(String city) {
         try {
             String apiUrl = "https://api.opencagedata.com/geocode/v1/json?key=" + apiKey + "&q=" + city;

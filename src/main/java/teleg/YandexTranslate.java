@@ -45,7 +45,6 @@ public class YandexTranslate implements ITranslator {
     public String translateCity(String city,String targetLanguage) throws IOException {
         return translate(city, targetLanguage);
     }
-
     private String translate(String text, String targetLanguage) throws IOException {
         String folderId = folderId1;
         String iamToken = iamToken1;

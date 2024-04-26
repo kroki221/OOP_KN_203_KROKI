@@ -12,6 +12,7 @@ public class GeoWeatherService {
         this.geoService = geoService;
         this.weatherService = weatherService;
         this.translator = translator;
+
     }
 
     public String processWeatherRequest(String city) throws IOException {

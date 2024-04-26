@@ -23,7 +23,6 @@ public class ChuckJokes {
                 System.out.println(joke);
                 return joke;
             }
-
             response.close();
             httpClient.close();
         } catch (Exception e) {

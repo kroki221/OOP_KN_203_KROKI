@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
 public class Reader {
     public static List<String> read(String path){
         ArrayList<String> list = new ArrayList<>();

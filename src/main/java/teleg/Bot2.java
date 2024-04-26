@@ -58,8 +58,6 @@ public class Bot2 extends TelegramLongPollingBot {
                 // Пользователь должен предоставить название города
                 inputCity = inputText;
                 chatStates.remove(chatId); // Сбросить состояние
-
-                // Обработать команду погоды с предоставленным городом
                 try {
                     handleWeatherCommand(message, inputCity);
                 } catch (IOException e) {
@@ -132,7 +130,6 @@ public class Bot2 extends TelegramLongPollingBot {
 
     private void handleTranslate(SendMessage message, String Translate){
         String userInput = Translate;
-
         try {
             String translatedText = translator.translateCity(userInput, "en");
             message.setText("Переведенный текст: " + translatedText);

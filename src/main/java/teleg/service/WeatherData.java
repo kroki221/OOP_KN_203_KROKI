@@ -11,6 +11,7 @@ public class WeatherData {
         this.windSpeed = windSpeed;
         this.feelsLike = feelsLike;
         this.daytime = daytime;
+
     }
 
     public double getTemp() {
