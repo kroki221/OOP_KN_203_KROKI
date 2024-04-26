@@ -19,7 +19,7 @@ public class GeoWeatherService {
         double latitude = geoService.getLatitude(city);
 
         WeatherData weather = weatherService.getWeather(latitude, longitude);
-        String translatedCity = translator.translateCity(city);
+        String translatedCity = translator.translateCity(city, "ru");
 
         String messageText = "Погода в городе " + translatedCity +
                 " на данный момент - "+ weather.getTemp() + "°C,"+

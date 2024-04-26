@@ -42,8 +42,7 @@ public class YandexTranslate implements ITranslator {
     }
 
     @Override
-    public String translateCity(String city) throws IOException {
-        String targetLanguage = "en"; // Предполагается перевод на английский язык для названий городов
+    public String translateCity(String city,String targetLanguage) throws IOException {
         return translate(city, targetLanguage);
     }
 

@@ -132,9 +132,9 @@ public class Bot2 extends TelegramLongPollingBot {
 
     private void handleTranslate(SendMessage message, String Translate){
         String userInput = Translate;
-        System.out.println(userInput);
+
         try {
-            String translatedText = translator.translateCity(userInput);
+            String translatedText = translator.translateCity(userInput, "en");
             message.setText("Переведенный текст: " + translatedText);
             executeMessage(message);
         } catch (IOException e) {
