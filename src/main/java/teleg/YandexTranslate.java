@@ -1,4 +1,5 @@
 package teleg;
+
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -6,18 +7,20 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import teleg.service.ITranslator;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.Properties;
 
-public class YandexTranslate {
+public class YandexTranslate implements ITranslator {
     private static final String TRANSLATE_URL = "https://translate.api.cloud.yandex.net/translate/v2/translate";
 
     private OkHttpClient client;
     private String folderId1;
     private String iamToken1;
+
     public YandexTranslate() {
         this.client = new OkHttpClient();
         loadConfiguration();
@@ -38,7 +41,13 @@ public class YandexTranslate {
         }
     }
 
-    public String translate(String text, String targetLanguage) throws IOException {
+    @Override
+    public String translateCity(String city) throws IOException {
+        String targetLanguage = "en"; // Предполагается перевод на английский язык для названий городов
+        return translate(city, targetLanguage);
+    }
+
+    private String translate(String text, String targetLanguage) throws IOException {
         String folderId = folderId1;
         String iamToken = iamToken1;
         JSONArray texts = new JSONArray(Collections.singletonList(text));
@@ -59,9 +68,7 @@ public class YandexTranslate {
             if (response.isSuccessful() && response.body() != null) {
                 String responseBody = response.body().string();
                 JSONObject jsonResponse = new JSONObject(responseBody);
-                System.out.println((jsonResponse));
                 JSONArray translations = jsonResponse.getJSONArray("translations");
-                System.out.println(translations);
                 if (translations.length() > 0) {
                     JSONObject translationObject = translations.getJSONObject(0);
                     String translatedText = translationObject.getString("text");

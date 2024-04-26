@@ -1,6 +1,5 @@
 package teleg;
 import java.nio.charset.StandardCharsets;
-import org.apache.commons.lang3.SerializationUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethodMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -8,16 +7,29 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import teleg.service.*;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import static org.apache.commons.io.IOUtils.length;
 
 
 public class Bot2 extends TelegramLongPollingBot {
     public String inputCity;
     public String TranslateText;
+    private final IGeoService geocodingService;
+    private final IWeatherService weatherService;
+    private final ITranslator translator;
+    private final GeoWeatherService geoWeatherService;
+
+    public Bot2(IGeoService geocodingService, IWeatherService weatherService, ITranslator translator, GeoWeatherService geoWeatherService) {
+        this.geocodingService = geocodingService;
+        this.weatherService = weatherService;
+        this.translator = translator;
+        this.geoWeatherService = geoWeatherService;
+    }
+
     @Override
     public String getBotUsername() {
         return "java_knbot";
@@ -48,7 +60,11 @@ public class Bot2 extends TelegramLongPollingBot {
                 chatStates.remove(chatId); // Сбросить состояние
 
                 // Обработать команду погоды с предоставленным городом
-                handleWeatherCommand(message, inputCity);
+                try {
+                    handleWeatherCommand(message, inputCity);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 executeMessage(message);
             } else if (chatStates.containsKey(chatId) && chatStates.get(chatId).equals("awaitingTranslationText")) {
                 // Пользователь должен предоставить название города
@@ -117,10 +133,8 @@ public class Bot2 extends TelegramLongPollingBot {
     private void handleTranslate(SendMessage message, String Translate){
         String userInput = Translate;
         System.out.println(userInput);
-        String targetLanguage = "ru";
         try {
-            YandexTranslate translator = new YandexTranslate();
-            String translatedText = translator.translate(userInput, targetLanguage);
+            String translatedText = translator.translateCity(userInput);
             message.setText("Переведенный текст: " + translatedText);
             executeMessage(message);
         } catch (IOException e) {
@@ -160,9 +174,9 @@ public class Bot2 extends TelegramLongPollingBot {
         message.setText("Погода и название города на английском");
     }
 
-    private void handleWeatherCommand(SendMessage message, String inputCity) {
-        JsonParser jsonParser = new JsonParser();
-        message.setText(jsonParser.getWeatherData(inputCity));
+    private void handleWeatherCommand(SendMessage message, String inputCity) throws IOException {
+        String weatherInfo = geoWeatherService.processWeatherRequest(inputCity);
+        message.setText(weatherInfo);
     }
 
     private void handleUnknownCommand(SendMessage message) {
